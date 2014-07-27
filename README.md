@@ -1,13 +1,18 @@
 Album Grab - Facebook Photo Album Downloader
 ============================================
 
-I had a client who's images she wanted on her website were all in a photo album
-on her Facebook page. Unfortunately there was not an option to download them
-all. Someone would have to go through each and every photo and download them
+I had a client who had images in an album on her Facebook page but wanted them on her website. Unfortunately there was not an option to download them all.
+Someone would have to go through each and every photo and download them
 one by one manually. So I created this project.
 
 This command line tool will crawl through a photo album and save all the images
 automatically.
+
+Roadmap
+-------
+
+At the moment it's only available as a command line utility, but soon will be availble as a website anyone can use.
+
 
 Install
 -------
@@ -35,12 +40,14 @@ $ ./albumgrab
 
 You'll then be prompted to provide the folder/directory name you want the images to be saved to, followed by the URL/link to first image in the album.
 
-    Please enter the name of the directory your images will be saved to: images/summer-2014
-    Please enter the URL to the first image of the Facebook Photo Album you would like to download: https://facebook.com/photo.php?fbid=11111&set=a.222.333.444
+    Please enter the name of the directory your images will be saved to:
+        images/summer-2014
+    Please enter the URL to the first image of the Facebook Photo Album you would like to download:
+        https://facebook.com/photo.php?fbid=11111&set=a.222.333.444
 
 
-Notes
------
+Notes for developers
+--------------------
 
 This project needs a bit of a code refactoring, plus cover some missing edge cases.
 
