@@ -11,7 +11,7 @@ automatically.
 Roadmap
 -------
 
-At the moment it's only available as a command line utility, but soon will be availble as a website anyone can use.
+At the moment it's only available as a command line utility, but soon will be available as a website anyone can use.
 
 
 Install
