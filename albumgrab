@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/vendor/autoload.php';
+
+use ArchFizz\Facebook\AlbumDownloader\Command\DownloadAlbumCommand;
+use ArchFizz\Facebook\AlbumDownloader\DownloaderApplication as App;
+use ArchFizz\Facebook\AlbumDownloader\DependencyInjection\CrawlerExtension as ContainerExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+
+$application = new App();
+
+if ($application instanceof ContainerAwareInterface) {
+    $container = new ContainerBuilder();
+
+    $extension = new ContainerExtension();
+    $container->registerExtension($extension);
+    $container->loadFromExtension($extension->getAlias());
+
+    $container->setParameter('root_dir', __DIR__);
+
+    $container->compile();
+
+    $application->setContainer($container);
+}
+
+$application->run();

@@ -1,0 +1,9 @@
+parameters:
+    client_class: Goutte\Client
+    filesystem_class: Symfony\Component\Filesystem\Filesystem
+
+services:
+    filesystem:
+        class: %filesystem_class%
+    client:
+        class: %client_class%

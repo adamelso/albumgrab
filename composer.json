@@ -1,0 +1,28 @@
+{
+    "name": "archfizz/facebook-album-crawler",
+    "description": "Crawl Facebook albums and download all images",
+    "require": {
+        "symfony/console": "~2.5",
+        "symfony/dependency-injection": "~2.5",
+        "symfony/config": "~2.5",
+        "symfony/yaml": "~2.5",
+        "symfony/filesystem": "~2.5",
+        "fabpot/goutte": "~1"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2"
+    },
+    "autoload": {
+        "psr-4": {
+            "ArchFizz\\Facebook\\AlbumDownloader\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adam Elsodaney",
+            "email": "adam.elso@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
