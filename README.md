@@ -46,6 +46,27 @@ You'll then be prompted to provide the folder/directory name you want the images
         https://facebook.com/photo.php?fbid=11111&set=a.222.333.444
 
 
+Not using Facebook in English
+-----------------------------
+
+The crawler will look for a link labeled _Next_ to find the next image.
+If your Facebook is in another language, please run the command using
+the `-x` or `--next` option, with the equivalent word for _Next_ in
+your language.
+
+Example for Spanish:
+
+```bash
+$ ./albumgrab --next="Siguiente"
+```
+
+or
+
+```bash
+$ ./albumgrab -x Siguiente
+```
+
+
 Notes for developers
 --------------------
 
