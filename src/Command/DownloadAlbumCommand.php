@@ -27,6 +27,7 @@ class DownloadAlbumCommand extends Command
         $this
             ->setName(self::COMMAND_NAME)
             ->setDescription('Download all the images in a Facebook photo album.')
+            ->addOption('next', 'x', InputOption::VALUE_OPTIONAL, 'Specify the text used for the next button.', 'Next')
         ;
     }
 
@@ -54,11 +55,11 @@ class DownloadAlbumCommand extends Command
         $imgSelector = '#fbPhotoImage';
 
         $album = $dialog->ask($output,
-            "Please enter the name of the directory your images will be saved to: "
+            "<question>Please enter the name of the directory your images will be saved to: </question>"
         );
 
         $uri = $dialog->ask($output,
-            'Please enter the URL to the first image of the Facebook Photo Album you would like to download: '
+            '<question>Please enter the URL to the first image of the Facebook Photo Album you would like to download: </question>'
         );
 
         $crawler = $client->request('GET', $uri);
@@ -75,7 +76,32 @@ class DownloadAlbumCommand extends Command
 
         $output->writeln(count($visitedUris));
 
-        $link = $crawler->selectLink('Next')->link();
+        $linkText = $input->getOption('next');
+
+        $linkCrawler = $crawler->selectLink($linkText);
+
+        if ($linkCrawler->count() === 0) {
+            $errorMessage = <<<EOL
+The link with text "%s" could not found on the page.
+EOL;
+
+            if ('Next' === $linkText) {
+                $errorMessage .= <<<EOL
+
+If your Facebook page is not in English, please run the command again
+using the equivalent word for 'Next in your language.
+
+For example, en Español:
+
+    ./albumgrab --next="Siguiente"
+
+EOL;
+            }
+
+            throw new \RuntimeException(sprintf($errorMessage,  $linkText));
+        }
+
+        $link = $linkCrawler->link();
 
         $output->writeln($link->getUri());
 
