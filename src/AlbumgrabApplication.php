@@ -1,8 +1,8 @@
 <?php
 
-namespace ArchFizz\Facebook\AlbumDownloader;
+namespace Albumgrab;
 
-use ArchFizz\Facebook\AlbumDownloader\Command\DownloadAlbumCommand;
+use Albumgrab\Command\DownloadAlbumCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
-class DownloaderApplication extends Application implements ContainerAwareInterface
+class AlbumgrabApplication extends Application implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
