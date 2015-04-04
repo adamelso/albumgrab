@@ -1,4 +1,4 @@
-Album Grab - Facebook Photo Album Downloader
+Albumgrab - Facebook Photo Album Downloader
 ============================================
 
 I had a client who had images in an album on her Facebook page but wanted them on her website. Unfortunately there was not an option to download them all.
