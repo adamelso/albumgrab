@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ArchFizz\\Facebook\\AlbumDownloader\\": "src/"
+            "Albumgrab\\": "src/"
         }
     },
     "license": "MIT",

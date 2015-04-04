@@ -1,6 +1,6 @@
 <?php
 
-namespace ArchFizz\Facebook\AlbumDownloader\DependencyInjection;
+namespace Albumgrab\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;

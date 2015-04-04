@@ -1,6 +1,6 @@
 <?php
 
-namespace ArchFizz\Facebook\AlbumDownloader\Command;
+namespace Albumgrab\Command;
 
 use Goutte\Client;
 use Symfony\Component\Console\Command\Command;

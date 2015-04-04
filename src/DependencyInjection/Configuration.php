@@ -1,6 +1,6 @@
 <?php
 
-namespace ArchFizz\Facebook\AlbumDownloader\DependencyInjection;
+namespace Albumgrab\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
