@@ -1,5 +1,3 @@
-/bin/
-/vendor/
-/images/*
-!.gitkeep
-
+vendor/
+/bin/*
+!/bin/albumgrab
