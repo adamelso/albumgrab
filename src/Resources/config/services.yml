@@ -1,9 +1,28 @@
+# To be listed in alphabetical order
 parameters:
     client_class: Goutte\Client
+    event_dispatcher_class: Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher
     filesystem_class: Symfony\Component\Filesystem\Filesystem
 
 services:
-    filesystem:
-        class: %filesystem_class%
+    albumgrab.downloader:
+        class: Albumgrab\Downloader
+        arguments: [ @filesystem, @albumgrab.remote_resource_client, @event_dispatcher ]
+    albumgrab.listener.download_and_save:
+        class: Albumgrab\EventListener\DownloadAndSaveListener
+        arguments: [ @console.output ]
+        tags:
+            - { name: kernel.event_listener, event: albumgrab.download_and_save, method: onDownloadAndSave }
+    albumgrab.remote_resource_client:
+        class: Albumgrab\RemoteResourceClient
     client:
         class: %client_class%
+    console.output:
+        class: Symfony\Component\Console\Output\ConsoleOutput
+    event_dispatcher:
+        class: %event_dispatcher_class%
+        arguments: [ @service_container ]
+    filesystem:
+        class: %filesystem_class%
+    service_container:
+        synthetic: true

@@ -1,12 +1,16 @@
 Albumgrab - Facebook Photo Album Downloader
 ============================================
 
-I had a client who had images in an album on her Facebook page but wanted them on her website. Unfortunately there was not an option to download them all.
-Someone would have to go through each and every photo and download them
-one by one manually. So I created this project.
+Background
+----------
 
-This command line tool will crawl through a photo album and save all the images
-automatically.
+Currently, there is no feature on Facebook to download all images in an album.
+Someone would have to go through each and every photo and download them
+one by one manually. I was required to download images a client had of their work
+from Facebook so that they could be uploaded on their site. So I created this project.
+
+This command line tool will automatically crawl through a photo album and save all the images.
+
 
 Roadmap
 -------
@@ -35,7 +39,7 @@ $ cd albumgrab
 Then execute the app
 
 ```bash
-$ ./albumgrab
+$ bin/albumgrab
 ```
 
 You'll then be prompted to provide the folder/directory name you want the images to be saved to, followed by the URL/link to first image in the album.
@@ -57,13 +61,13 @@ your language.
 Example for Spanish:
 
 ```bash
-$ ./albumgrab --next="Siguiente"
+$ bin/albumgrab --next="Siguiente"
 ```
 
 or
 
 ```bash
-$ ./albumgrab -x Siguiente
+$ bin/albumgrab -x Siguiente
 ```
 
 

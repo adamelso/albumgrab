@@ -1,27 +1,30 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use Albumgrab\AlbumgrabApplication;
-use Albumgrab\DependencyInjection\CrawlerExtension as ContainerExtension;
+use Albumgrab\DependencyInjection\CrawlerExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 
 $application = new AlbumgrabApplication();
 
-if ($application instanceof ContainerAwareInterface) {
-    $container = new ContainerBuilder();
+$container = new ContainerBuilder(new ParameterBag());
 
-    $extension = new ContainerExtension();
-    $container->registerExtension($extension);
-    $container->loadFromExtension($extension->getAlias());
+$container->addCompilerPass(new RegisterListenersPass());
 
-    $container->setParameter('root_dir', __DIR__);
+$extension = new CrawlerExtension();
+$container->registerExtension($extension);
+$container->loadFromExtension($extension->getAlias());
 
-    $container->compile();
+$container->setParameter('root_dir', __DIR__);
 
-    $application->setContainer($container);
-}
+$container->compile();
+
+$application->setDispatcher($container->get('event_dispatcher'));
+
+$application->setContainer($container);
 
 $application->run();
