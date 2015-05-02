@@ -1,9 +1,12 @@
 parameters:
     client_class: Goutte\Client
     filesystem_class: Symfony\Component\Filesystem\Filesystem
+    event_dispatcher_class: Symfony\Component\EventDispatcher\EventDispatcher
 
 services:
     filesystem:
         class: %filesystem_class%
     client:
         class: %client_class%
+    event_dispatcher:
+        class: %event_dispatcher_class%
