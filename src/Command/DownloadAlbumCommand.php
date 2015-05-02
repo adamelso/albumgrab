@@ -2,6 +2,7 @@
 
 namespace Albumgrab\Command;
 
+use Albumgrab\Downloader;
 use Albumgrab\Element;
 use Albumgrab\FacebookAlbum;
 use Albumgrab\Grab;
@@ -52,9 +53,7 @@ class DownloadAlbumCommand extends Command
         /** @var DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
 
-        $album = $dialog->ask($output,
-            "<question>Please enter the name of the directory your images will be saved to: </question>"
-        );
+        $grabSaveDir = $dialog->ask($output, "<question>Please enter the name of the directory your images will be saved to: This will be saved in the 'images' directory.</question>");
 
         $uri = $dialog->ask($output,
             '<question>Please enter the URL to the first image of the Facebook Photo Album you would like to download: </question>'
@@ -62,7 +61,17 @@ class DownloadAlbumCommand extends Command
 
         $linkText = $input->getOption('next');
 
-        $facebookGrab = new Grab(new FacebookAlbum($uri, new Element(Element::CSS_TYPE, '#fbPhotoImage'), new Element(Element::TEXT_TYPE, $linkText)));
+        $rootDir = $container->getParameter('root_dir');
+        $imgDir = sprintf('%s/../images/%s', $rootDir, $grabSaveDir);
+
+        $facebookGrab = new Grab(
+            new FacebookAlbum(
+                $uri,
+                new Element(Element::CSS_TYPE, '#fbPhotoImage'),
+                new Element(Element::TEXT_TYPE, $linkText)
+            ),
+            $imgDir
+        );
 
         $crawler = $client->request('GET', $uri);
 
@@ -106,6 +115,9 @@ EOL;
 
         $output->writeln($link->getUri());
 
+        // @todo Write Behat scenarios for this, rather than testing manually.
+        // while (count($facebookGrab) < 5) {
+
         while (! $facebookGrab->hasVisitedUrl($link->getUri())) {
             $crawler = $client->click($link);
 
@@ -126,9 +138,6 @@ EOL;
 
         $output->writeln(sprintf("Found %d images", count($facebookGrab)));
 
-        $rootDir = $container->getParameter('root_dir');
-
-        $imgDir = sprintf('%s/images/%s', $rootDir, $album);
 
         try {
             if (!$fs->exists($imgDir)) {
@@ -140,14 +149,9 @@ EOL;
             exit(1);
         }
 
-        foreach ($imageUris as $src) {
-            $img = file_get_contents($src);
+        /** @var Downloader $downloader */
+        $downloader = $container->get('albumgrab.downloader');
 
-            $imgFilename = sprintf('%s/%s', $imgDir, basename($src));
-
-            $output->writeln(sprintf("Saving image to %s", $imgFilename));
-
-            $fs->dumpFile($imgFilename, $img);
-        };
+        $downloader->download($facebookGrab);
     }
 }
