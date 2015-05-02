@@ -10,12 +10,15 @@
     ],
 
     "require": {
+        "php": ">=5.4",
+
+        "fabpot/goutte": "~1.0",
+        "symfony/config": "~2.5",
         "symfony/console": "~2.5",
         "symfony/dependency-injection": "~2.5",
-        "symfony/config": "~2.5",
-        "symfony/yaml": "~2.5",
+        "symfony/event-dispatcher": "~2.5",
         "symfony/filesystem": "~2.5",
-        "fabpot/goutte": "~1.0"
+        "symfony/yaml": "~2.5"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.1"
