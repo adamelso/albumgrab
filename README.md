@@ -1,5 +1,18 @@
-Albumgrab - Facebook Photo Album Downloader
-============================================
+Albumgrab - Automated photo album crawler and downloader
+========================================================
+
+[![Build Status](https://travis-ci.org/adamelso/albumgrab.svg)](https://travis-ci.org/adamelso/albumgrab)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/adamelso/albumgrab/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/adamelso/albumgrab/?branch=master)
+
+Supported sites:
+
+  * Facebook
+
+Coming soon:
+
+  * Twitter
+  * Instagram
+
 
 Background
 ----------
