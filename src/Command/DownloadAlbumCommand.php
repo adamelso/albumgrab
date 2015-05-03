@@ -3,17 +3,15 @@
 namespace Albumgrab\Command;
 
 use Albumgrab\Downloader;
-use Albumgrab\Element;
-use Albumgrab\FacebookAlbum;
-use Albumgrab\Grab;
 use Albumgrab\GrabFactory;
 use Goutte\Client;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -43,29 +41,26 @@ class DownloadAlbumCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getApplication()->getContainer();
+        $client = $this->getClient();
+        $filesystem = $this->getFilesystem();
 
-        /** @var Client $client */
-        $client = $container->get('client');
+        /** @var QuestionHelper $questionHelper */
+        $questionHelper = $this->getHelper('question');
 
-        /** @var Filesystem $fs */
-        $fs = $container->get('filesystem');
+        $grabSaveDirName = $questionHelper->ask($input, $output, new Question(
+            '<question>Please enter the name of the directory your images will be saved to. This will be saved in the "images" directory.</question> ',
+            'grab'.time()
+        ));
 
-        /** @var DialogHelper $dialog */
-        $dialog = $this->getHelperSet()->get('dialog');
-
-        $grabSaveDir = $dialog->ask($output, "<question>Please enter the name of the directory your images will be saved to: This will be saved in the 'images' directory.</question>");
-
-        $uri = $dialog->ask($output,
-            '<question>Please enter the URL to the first image of the Facebook Photo Album you would like to download: </question>'
-        );
+        $uri = $questionHelper->ask($input, $output, new Question(
+            '<question>Please enter the URL to the first image of the Facebook Photo Album you would like to download.</question> '
+        ));
 
         $linkText = $input->getOption('next');
 
-        $rootDir = $container->getParameter('root_dir');
-        $imgDir = sprintf('%s/../images/%s', $rootDir, $grabSaveDir);
+        $saveDir = $this->getSaveDirectory($grabSaveDirName);
 
-        $facebookGrab = GrabFactory::createFacebookGrab($uri, $imgDir, $linkText);
+        $facebookGrab = GrabFactory::createFacebookGrab($uri, $saveDir, $linkText);
 
         $crawler = $client->request('GET', $uri);
 
@@ -132,10 +127,9 @@ EOL;
 
         $output->writeln(sprintf("Found %d images", count($facebookGrab)));
 
-
         try {
-            if (!$fs->exists($imgDir)) {
-                $fs->mkdir($imgDir);
+            if (!$filesystem->exists($saveDir)) {
+                $filesystem->mkdir($saveDir);
             }
         } catch (IOExceptionInterface $e) {
             $output->writeln("An error occurred while creating your directory at ".$e->getPath());
@@ -144,8 +138,42 @@ EOL;
         }
 
         /** @var Downloader $downloader */
-        $downloader = $container->get('albumgrab.downloader');
+        $downloader = $this->getContainer()->get('albumgrab.downloader');
 
         $downloader->download($facebookGrab);
+    }
+
+    /**
+     * @return ContainerInterface
+     */
+    private function getContainer()
+    {
+        return $this->getApplication()->getContainer();
+    }
+
+    /**
+     * @return Client
+     */
+    protected function getClient()
+    {
+        return $this->getContainer()->get('client');
+    }
+
+    /**
+     * @return Filesystem
+     */
+    protected function getFilesystem()
+    {
+        return $this->getContainer()->get('filesystem');
+    }
+
+    /**
+     * @param string $grabSaveDir
+     *
+     * @return string
+     */
+    protected function getSaveDirectory($grabSaveDir)
+    {
+        return sprintf('%s/../images/%s', $this->getContainer()->getParameter('root_dir'), $grabSaveDir);
     }
 }
