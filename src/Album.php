@@ -7,5 +7,18 @@ namespace Albumgrab;
  */
 interface Album
 {
+    /**
+     * @return string
+     */
     public function getStartingUrl();
+
+    /**
+     * @return Element
+     */
+    public function getImageElement();
+
+    /**
+     * @return Element
+     */
+    public function getNextButtonElement();
 }
