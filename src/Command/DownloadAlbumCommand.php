@@ -6,6 +6,7 @@ use Albumgrab\Downloader;
 use Albumgrab\Element;
 use Albumgrab\FacebookAlbum;
 use Albumgrab\Grab;
+use Albumgrab\GrabFactory;
 use Goutte\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -64,14 +65,7 @@ class DownloadAlbumCommand extends Command
         $rootDir = $container->getParameter('root_dir');
         $imgDir = sprintf('%s/../images/%s', $rootDir, $grabSaveDir);
 
-        $facebookGrab = new Grab(
-            new FacebookAlbum(
-                $uri,
-                new Element(Element::CSS_TYPE, '#fbPhotoImage'),
-                new Element(Element::TEXT_TYPE, $linkText)
-            ),
-            $imgDir
-        );
+        $facebookGrab = GrabFactory::createFacebookGrab($uri, $imgDir, $linkText);
 
         $crawler = $client->request('GET', $uri);
 
