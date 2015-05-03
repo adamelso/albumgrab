@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -126,16 +125,6 @@ EOL;
         }
 
         $output->writeln(sprintf("Found %d images", count($facebookGrab)));
-
-        try {
-            if (!$filesystem->exists($saveDir)) {
-                $filesystem->mkdir($saveDir);
-            }
-        } catch (IOExceptionInterface $e) {
-            $output->writeln("An error occurred while creating your directory at ".$e->getPath());
-
-            exit(1);
-        }
 
         /** @var Downloader $downloader */
         $downloader = $this->getContainer()->get('albumgrab.downloader');

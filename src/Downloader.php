@@ -4,6 +4,7 @@ namespace Albumgrab;
 
 use Albumgrab\Event\DownloadAndSaveEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -40,9 +41,13 @@ class Downloader
 
     /**
      * @param Grab $grab
+     *
+     * @throws IOExceptionInterface if the save directory cannot be created.
      */
     public function download(Grab $grab)
     {
+        $this->prepareDirectory($grab);
+
         foreach ($grab->getImageUrls() as $imageUrl) {
             $imgFilename = sprintf('%s/%s', $grab->getSavePath(), basename($imageUrl));
             $imageContent = $this->remoteResourceClient->getResource($imageUrl);
@@ -50,6 +55,18 @@ class Downloader
             $this->filesystem->dumpFile($imgFilename, $imageContent);
 
             $this->eventDispatcher->dispatch(DownloadAndSaveEvent::NAME, new DownloadAndSaveEvent($imgFilename));
+        }
+    }
+
+    /**
+     * @param Grab $grab
+     *
+     * @throws IOExceptionInterface if the save directory cannot be created.
+     */
+    private function prepareDirectory(Grab $grab)
+    {
+        if (!$this->filesystem->exists($grab->getSavePath())) {
+            $this->filesystem->mkdir($grab->getSavePath());
         }
     }
 }
