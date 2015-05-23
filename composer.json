@@ -21,7 +21,10 @@
         "symfony/yaml": "~2.5"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1"
+        "behat/behat": "~3.0",
+        "bossa/phpspec2-expect": "*",
+        "phpspec/phpspec": "~2.1",
+        "symfony/process": "~2.5"
     },
     "minimum-stability": "stable",
 

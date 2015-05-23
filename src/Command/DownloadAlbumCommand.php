@@ -41,18 +41,20 @@ class DownloadAlbumCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $client = $this->getClient();
+        $client->setHeader('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/36.0');
+
         $filesystem = $this->getFilesystem();
 
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
 
         $grabSaveDirName = $questionHelper->ask($input, $output, new Question(
-            '<question>Please enter the name of the directory your images will be saved to. This will be saved in the "images" directory.</question> ',
+            '<question>Please enter the name of the directory your images will be saved to. This can be an absolute path (eg: "/tmp/fbphotos"). Otherwise, relative paths will be relative to the "images" directory.</question>'.PHP_EOL,
             'grab'.time()
         ));
 
         $uri = $questionHelper->ask($input, $output, new Question(
-            '<question>Please enter the URL to the first image of the Facebook Photo Album you would like to download.</question> '
+            '<question>Please enter the URL to the first image of the Facebook Photo Album you would like to download.</question>'.PHP_EOL
         ));
 
         $linkText = $input->getOption('next');
@@ -70,7 +72,7 @@ class DownloadAlbumCommand extends Command
         $imgCrawler = $crawler->filter($facebookGrab->getAlbum()->getImageElement()->getSelector());
         $imgSrc = $imgCrawler->attr('src');
 
-        $output->writeln("Image found $imgSrc");
+        $output->writeln(sprintf("Image found %s", basename(parse_url($imgSrc)['path'])));
 
         $facebookGrab->addImageUrl($imgSrc);
 
@@ -114,7 +116,7 @@ EOL;
 
             $facebookGrab->addImageUrl($imgSrc);
 
-            $output->writeln("Image found $imgSrc");
+            $output->writeln(sprintf("Image found %s", basename(parse_url($imgSrc)['path'])));
 
             $facebookGrab->addVisitedUrl($link->getUri());
 
@@ -163,6 +165,10 @@ EOL;
      */
     protected function getSaveDirectory($grabSaveDir)
     {
+        if (0 === strpos($grabSaveDir, '/')) {
+            return $grabSaveDir;
+        }
+
         return sprintf('%s/../images/%s', $this->getContainer()->getParameter('root_dir'), $grabSaveDir);
     }
 }

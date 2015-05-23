@@ -16,9 +16,6 @@ tools:
     filter:
       excluded-paths: [ spec/* ]
 
-build_failure_conditions:
-    - 'issues.label("coding-style").exists'
-
 filter:
   excluded_paths:
     - vendor/*

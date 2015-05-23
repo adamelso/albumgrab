@@ -17,9 +17,10 @@ matrix:
     - php: hhvm-nightly
     - php: 7.0
     - env: DEPENDENCIES='dev'
-  fast_finish: true
+  #fast_finish: true
 
 before_install:
+  - sudo apt-get install expect
   - composer selfupdate
 
 install:
@@ -30,3 +31,4 @@ install:
 
 script:
    - bin/phpspec run --format=pretty
+   - bin/behat --format=pretty --stop-on-failure
