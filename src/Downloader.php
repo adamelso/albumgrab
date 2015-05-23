@@ -49,7 +49,7 @@ class Downloader
         $this->prepareDirectory($grab);
 
         foreach ($grab->getImageUrls() as $imageUrl) {
-            $imgFilename = sprintf('%s/%s', $grab->getSavePath(), basename($imageUrl));
+            $imgFilename = sprintf('%s/%s', $grab->getSavePath(), basename(parse_url($imageUrl)['path']));
             $imageContent = $this->remoteResourceClient->getResource($imageUrl);
 
             $this->filesystem->dumpFile($imgFilename, $imageContent);

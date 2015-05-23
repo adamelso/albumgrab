@@ -31,6 +31,9 @@ class DownloaderSpec extends ObjectBehavior
 
         $grab->getSavePath()->willReturn('/tmp');
 
+        $filesystem->exists('/tmp')->willReturn(false);
+        $filesystem->mkdir('/tmp')->shouldBeCalled();
+
         $remoteResourceClient->getResource('http://fb.me/photo/1.jpg')->willReturn('IMAGEBLOB_1');
         $remoteResourceClient->getResource('http://fb.me/photo/2.jpg')->willReturn('IMAGEBLOB_2');
 
