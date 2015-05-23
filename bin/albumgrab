@@ -3,7 +3,7 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-use Albumgrab\AlbumgrabApplication;
+use Albumgrab\Console\AlbumgrabApplication;
 use Albumgrab\DependencyInjection\CrawlerExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;

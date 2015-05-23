@@ -14,6 +14,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     private $processCommand;
     private $phpCli;
     private $workingDir;
+    private $commandName;
 
     public function __construct()
     {
@@ -27,11 +28,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @param string $command A valid Albumgrab command
+     *
      * @return string
      */
-    private function getCmd()
+    private function getCmd($command)
     {
-        return escapeshellcmd(sprintf('%s bin/albumgrab --no-ansi', $this->phpCli));
+        return escapeshellcmd(sprintf('%s bin/albumgrab %s --no-ansi', $this->phpCli, $command));
     }
 
     /**
@@ -43,14 +46,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I run Albumgrab
+     * @When I run the Albumgrab :command command
      */
-    public function iRun()
+    public function iRun($command)
     {
+        $this->commandName = $command;
+
         $expect = <<<BASH
 exec expect -c '
 set timeout 180
-spawn {$this->getCmd()}
+spawn {$this->getCmd($this->commandName)}
 
 BASH;
 
@@ -136,6 +141,6 @@ BASH;
      */
     private function prependExpectScriptUsage(PyStringNode $expectedOutput)
     {
-        return 'spawn '.$this->getCmd().PHP_EOL.$expectedOutput;
+        return 'spawn '.$this->getCmd($this->commandName).PHP_EOL.$expectedOutput;
     }
 }

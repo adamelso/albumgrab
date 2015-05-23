@@ -1,6 +1,6 @@
 <?php
 
-namespace Albumgrab\Command;
+namespace Albumgrab\Console\Command;
 
 use Albumgrab\Downloader;
 use Albumgrab\GrabFactory;
@@ -17,7 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
-class DownloadAlbumCommand extends Command
+class DownloadCommand extends Command
 {
     const COMMAND_NAME = 'download';
 
