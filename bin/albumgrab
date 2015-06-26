@@ -4,27 +4,24 @@
 require __DIR__.'/../vendor/autoload.php';
 
 use Albumgrab\Console\AlbumgrabApplication;
+use Albumgrab\DependencyInjection\Compiler\RegisterConsoleCommandsPass;
 use Albumgrab\DependencyInjection\CrawlerExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 
-$application = new AlbumgrabApplication();
-
 $container = new ContainerBuilder(new ParameterBag());
-
 $container->addCompilerPass(new RegisterListenersPass());
 
 $extension = new CrawlerExtension();
 $container->registerExtension($extension);
 $container->loadFromExtension($extension->getAlias());
-
 $container->setParameter('root_dir', __DIR__);
-
+$container->addCompilerPass(new RegisterConsoleCommandsPass());
 $container->compile();
 
+$application = new AlbumgrabApplication();
 $application->setDispatcher($container->get('event_dispatcher'));
-
 $application->setContainer($container);
 
 $application->run();

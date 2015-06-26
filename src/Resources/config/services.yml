@@ -5,6 +5,10 @@ parameters:
     filesystem_class: Symfony\Component\Filesystem\Filesystem
 
 services:
+    albumgrab.command.download:
+        class: Albumgrab\Console\Command\DownloadCommand
+        tags:
+            - { name: console.command }
     albumgrab.downloader:
         class: Albumgrab\Downloader
         arguments: [ @filesystem, @albumgrab.remote_resource_client, @event_dispatcher ]

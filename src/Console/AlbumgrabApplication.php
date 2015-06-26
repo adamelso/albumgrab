@@ -4,7 +4,6 @@ namespace Albumgrab\Console;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -12,7 +11,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class AlbumgrabApplication extends Application implements ContainerAwareInterface
 {
-    use ContainerAwareTrait;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
     /**
      * @return ContainerInterface
@@ -20,5 +22,21 @@ class AlbumgrabApplication extends Application implements ContainerAwareInterfac
     public function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * Sets the container and add commands from it.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        if ($container && $container->hasParameter('console.command.ids')) {
+            foreach ($container->getParameter('console.command.ids') as $id) {
+                $this->add($container->get($id));
+            }
+        }
+
+        $this->container = $container;
     }
 }
