@@ -5,7 +5,7 @@ Feature: Downloading images from a Facebook photo album
 
   Scenario: Downloading and saving photos from Facebook
     Given I am in the Albumgrab app directory
-    When I run Albumgrab
+    When I run the Albumgrab "download" command
     And when asked which directory to save to I answer "/tmp/php-london"
     And when asked the URL to an image in a photo album I answer:
 """

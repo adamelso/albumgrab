@@ -4,6 +4,13 @@ Albumgrab - Automated photo album crawler and downloader
 [![Build Status](https://travis-ci.org/adamelso/albumgrab.svg?branch=master)](https://travis-ci.org/adamelso/albumgrab)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/adamelso/albumgrab/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/adamelso/albumgrab/?branch=master)
 
+
+What it is? What does it do?
+----------------------------
+
+A __command-line utility__ to __automate__ crawling through a photo album and __downloading all images__ within the album __on Facebook__.
+
+
 Supported sites:
 
   * Facebook
@@ -12,6 +19,8 @@ Coming soon:
 
   * Twitter
   * Instagram
+  * Tumblr
+  * Flickr
 
 
 Background
@@ -25,10 +34,23 @@ from Facebook so that they could be uploaded on their site. So I created this pr
 This command line tool will automatically crawl through a photo album and save all the images.
 
 
+Requirements
+------------
+
+  * PHP 5.4 or greater
+  * Composer
+  * Git
+  * cURL
+
+
 Roadmap
 -------
 
-At the moment it's only available as a command line utility, but soon will be available as a website anyone can use.
+  * At the moment it is only available as a command line utility, but could be available either as a website
+    anyone can use, or an self-hosted installable web application.
+  * Only Facebook is supported, but other sites will have support (see above for a list).
+  * This project will be split out into different packages.
+  * The installation process will be simplified by downloading a single packaged executable (PHAR).
 
 
 Install
@@ -52,10 +74,10 @@ $ cd albumgrab
 Then execute the app
 
 ```bash
-$ bin/albumgrab
+$ bin/albumgrab download
 ```
 
-You'll then be prompted to provide the folder/directory name you want the images to be saved to, followed by the URL/link to first image in the album.
+You will then be prompted to provide the folder/directory name you want the images to be saved to, followed by the URL/link to first image in the album.
 
     Please enter the name of the directory your images will be saved to:
         images/summer-2014
@@ -74,20 +96,14 @@ your language.
 Example for Spanish:
 
 ```bash
-$ bin/albumgrab --next="Siguiente"
+$ bin/albumgrab download --next="Siguiente"
 ```
 
 or
 
 ```bash
-$ bin/albumgrab -x Siguiente
+$ bin/albumgrab download -x Siguiente
 ```
-
-
-Notes for developers
---------------------
-
-This project needs a bit of a code refactoring, plus cover some missing edge cases.
 
 
 IMPORTANT

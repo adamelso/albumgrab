@@ -3,6 +3,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -14,6 +15,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
     private $processCommand;
     private $phpCli;
     private $workingDir;
+    private $commandName;
+    private $filesystem;
 
     public function __construct()
     {
@@ -24,14 +27,18 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->phpCli = $phpCli;
 
         $this->processCommand = '';
+
+        $this->filesystem = new Filesystem();
     }
 
     /**
+     * @param string $command A valid Albumgrab command
+     *
      * @return string
      */
-    private function getCmd()
+    private function getCmd($command)
     {
-        return escapeshellcmd(sprintf('%s bin/albumgrab --no-ansi', $this->phpCli));
+        return escapeshellcmd(sprintf('%s bin/albumgrab %s --no-ansi', $this->phpCli, $command));
     }
 
     /**
@@ -43,14 +50,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I run Albumgrab
+     * @When I run the Albumgrab :command command
      */
-    public function iRun()
+    public function iRun($command)
     {
+        $this->commandName = $command;
+
         $expect = <<<BASH
 exec expect -c '
 set timeout 180
-spawn {$this->getCmd()}
+spawn {$this->getCmd($this->commandName)}
 
 BASH;
 
@@ -116,6 +125,13 @@ BASH;
         $actualOutput = $this->normalizeNewlines($process->getOutput());
         $expectedOutput = $this->prependExpectScriptUsage($expectedOutput);
 
+        $this->filesystem->dumpFile('/tmp/actual_output.txt', $actualOutput);
+        $this->filesystem->dumpFile('/tmp/expected_output.txt', $expectedOutput);
+
+        $diffProcess = new Process('diff /tmp/expected_output.txt /tmp/actual_output.txt');
+        $diffProcess->run();
+        echo $diffProcess->getOutput();
+
         expect($actualOutput)->toBe($expectedOutput);
     }
 
@@ -136,6 +152,6 @@ BASH;
      */
     private function prependExpectScriptUsage(PyStringNode $expectedOutput)
     {
-        return 'spawn '.$this->getCmd().PHP_EOL.$expectedOutput;
+        return 'spawn '.$this->getCmd($this->commandName).PHP_EOL.$expectedOutput;
     }
 }

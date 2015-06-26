@@ -1,6 +1,6 @@
 <?php
 
-namespace Albumgrab\Command;
+namespace Albumgrab\Console\Command;
 
 use Albumgrab\Downloader;
 use Albumgrab\GrabFactory;
@@ -17,7 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
-class DownloadAlbumCommand extends Command
+class DownloadCommand extends Command
 {
     const COMMAND_NAME = 'download';
 
@@ -26,11 +26,9 @@ class DownloadAlbumCommand extends Command
      */
     protected function configure()
     {
-        $this
-            ->setName(self::COMMAND_NAME)
-            ->setDescription('Download all the images in a Facebook photo album.')
-            ->addOption('next', 'x', InputOption::VALUE_OPTIONAL, 'Specify the text used for the next button.', 'Next')
-        ;
+        $this->setName(self::COMMAND_NAME);
+        $this->setDescription('Download all the images in a Facebook photo album.');
+        $this->addOption('next', 'x', InputOption::VALUE_OPTIONAL, 'Specify the text used for the next button.', 'Next');
     }
 
     /**
@@ -42,8 +40,6 @@ class DownloadAlbumCommand extends Command
     {
         $client = $this->getClient();
         $client->setHeader('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/36.0');
-
-        $filesystem = $this->getFilesystem();
 
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
