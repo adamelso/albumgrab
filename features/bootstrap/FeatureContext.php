@@ -3,6 +3,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -15,6 +16,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     private $phpCli;
     private $workingDir;
     private $commandName;
+    private $filesystem;
 
     public function __construct()
     {
@@ -25,6 +27,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $this->phpCli = $phpCli;
 
         $this->processCommand = '';
+
+        $this->filesystem = new Filesystem();
     }
 
     /**
@@ -120,6 +124,13 @@ BASH;
 
         $actualOutput = $this->normalizeNewlines($process->getOutput());
         $expectedOutput = $this->prependExpectScriptUsage($expectedOutput);
+
+        $this->filesystem->dumpFile('/tmp/actual_output.txt', $actualOutput);
+        $this->filesystem->dumpFile('/tmp/expected_output.txt', $expectedOutput);
+
+        $diffProcess = new Process('diff /tmp/expected_output.txt /tmp/actual_output.txt');
+        $diffProcess->run();
+        echo $diffProcess->getOutput();
 
         expect($actualOutput)->toBe($expectedOutput);
     }
