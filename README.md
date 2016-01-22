@@ -37,10 +37,11 @@ This command line tool will automatically crawl through a photo album and save a
 Requirements
 ------------
 
-  * PHP 5.4 or greater
+  * PHP 5.5 or greater
   * Composer
   * Git
   * cURL
+  * Expect
 
 
 Roadmap

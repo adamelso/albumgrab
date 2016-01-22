@@ -20,7 +20,7 @@ $container->setParameter('root_dir', __DIR__);
 $container->addCompilerPass(new RegisterConsoleCommandsPass());
 $container->compile();
 
-$application = new AlbumgrabApplication();
+$application = new AlbumgrabApplication('Albumgrab', '0.0.2');
 $application->setDispatcher($container->get('event_dispatcher'));
 $application->setContainer($container);
 
