@@ -130,6 +130,8 @@ BASH;
 
         $diffProcess = new Process('diff /tmp/expected_output.txt /tmp/actual_output.txt');
         $diffProcess->run();
+
+        echo '==== OUTPUT DIFF ====';
         echo $diffProcess->getOutput();
 
         expect($actualOutput)->toBe($expectedOutput);

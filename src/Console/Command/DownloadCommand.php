@@ -4,6 +4,7 @@ namespace Albumgrab\Console\Command;
 
 use Albumgrab\Downloader;
 use Albumgrab\GrabFactory;
+use Albumgrab\Image;
 use Goutte\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -76,7 +77,7 @@ class DownloadCommand extends Command
 
         $linkCrawler = $crawler->selectLink($facebookGrab->getAlbum()->getNextButtonElement()->getSelector());
 
-        if ($linkCrawler->count() === 0) {
+        if (0 === $linkCrawler->count()) {
             $errorMessage = <<<EOL
 The link with text "%s" could not found on the page.
 EOL;
@@ -89,7 +90,7 @@ using the equivalent word for 'Next in your language.
 
 For example, en Español:
 
-    ./albumgrab --next="Siguiente"
+    bin/albumgrab --next="Siguiente"
 
 EOL;
             }
@@ -104,23 +105,30 @@ EOL;
         // @todo Write Behat scenarios for this, rather than testing manually.
         // while (count($facebookGrab) < 5) {
 
-        while (! $facebookGrab->hasVisitedUrl($link->getUri())) {
-            $crawler = $client->click($link);
+        $generator = function () {
+            while (! $facebookGrab->hasVisitedUrl($link->getUri())) {
+                $crawler = $client->click($link);
 
-            $imgCrawler = $crawler->filter($facebookGrab->getAlbum()->getImageElement()->getSelector());
-            $imgSrc = $imgCrawler->attr('src');
+                $imgCrawler = $crawler->filter($facebookGrab->getAlbum()->getImageElement()->getSelector());
+                $imgSrc = $imgCrawler->attr('src');
 
-            $facebookGrab->addImageUrl($imgSrc);
+                // @todo Use Generators
+                $facebookGrab->addImageUrl($imgSrc);
 
-            $output->writeln(sprintf("Image found %s", basename(parse_url($imgSrc)['path'])));
+                $output->writeln(sprintf("Image found %s", basename(parse_url($imgSrc)['path'])));
 
-            $facebookGrab->addVisitedUrl($link->getUri());
+                $facebookGrab->addVisitedUrl($link->getUri());
 
-            $output->writeln(count($facebookGrab));
+                $output->writeln(count($facebookGrab));
 
-            $link = $crawler->selectLink('Next')->link();
-            $output->writeln("Opening " . $link->getUri());
-        }
+                $link = $crawler->selectLink('Next')->link();
+                $output->writeln("Opening " . $link->getUri());
+            }
+
+            yield new Image($src);
+        };
+
+        $generator();
 
         $output->writeln(sprintf("Found %d images", count($facebookGrab)));
 
