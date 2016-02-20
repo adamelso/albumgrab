@@ -1,5 +1,5 @@
 {
-    "name": "adamelso/albumgrab-app",
+    "name": "albumgrab/cli",
     "description": "Crawl photo albums and download images",
     "license": "MIT",
     "authors": [
