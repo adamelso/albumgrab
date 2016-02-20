@@ -2,6 +2,7 @@
 
 namespace Albumgrab\DependencyInjection\Compiler;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -28,12 +29,12 @@ class RegisterConsoleCommandsPass implements CompilerPassInterface
                 throw new \InvalidArgumentException(sprintf('The service "%s" tagged "console.command" must not be abstract.', $id));
             }
 
-            $class = $container->getParameterBag()->resolveValue($definition->getClass());
-            $r = new \ReflectionClass($class);
-            if (!$r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command')) {
-                throw new \InvalidArgumentException(sprintf('The service "%s" tagged "console.command" must be a subclass of "Symfony\\Component\\Console\\Command\\Command".', $id));
+            $fqcn = $container->getParameterBag()->resolveValue($definition->getClass());
+            $r = new \ReflectionClass($fqcn);
+            if (!$r->isSubclassOf(Command::class)) {
+                throw new \InvalidArgumentException(sprintf('The service "%s" tagged "console.command" must be a subclass of "%s".', $id, Command::class));
             }
-            $container->setAlias('console.command.'.strtolower(str_replace('\\', '_', $class)), $id);
+            $container->setAlias('console.command.'.strtolower(str_replace('\\', '_', $fqcn)), $id);
         }
 
         $container->setParameter('console.command.ids', array_keys($commandServices));

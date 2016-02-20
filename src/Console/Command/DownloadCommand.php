@@ -89,7 +89,7 @@ using the equivalent word for 'Next in your language.
 
 For example, en Español:
 
-    ./albumgrab --next="Siguiente"
+    bin/albumgrab --next="Siguiente"
 
 EOL;
             }
