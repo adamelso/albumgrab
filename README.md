@@ -5,10 +5,11 @@ Albumgrab - Automated photo album crawler and downloader
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/adamelso/albumgrab/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/adamelso/albumgrab/?branch=master)
 
 
-Background
-----------
+UPDATE !
+--------
 
-Sadly, the Facebook album download feature no longer works and so this tool is effectively useless at this time.
+Sadly, the Facebook album download feature no longer works since the page structure has changed
+and so this tool is effectively useless at this time.
 However, new crawlers will be added for other sites, such as Instagram and Twitter.
 
 
@@ -28,7 +29,7 @@ Roadmap
 
   * At the moment it is only available as a command line utility, but could be available either as a website
     anyone can use, or an self-hosted installable web application.
-  * Only Facebook is supported, but other sites will have support (see above for a list).
+  * Support Facebook, Twitter and Instagram.
   * This project will be split out into different packages.
   * The installation process will be simplified by downloading a single packaged executable (PHAR).
 
@@ -42,8 +43,8 @@ $ curl -sS https://getcomposer.org/installer | php
 $ php composer.phar install
 ```
 
-Usage
------
+Usage (currently not functional)
+--------------------------------
 
 Enter the Albumgrab directory
 
@@ -89,7 +90,4 @@ $ bin/albumgrab download -x Siguiente
 IMPORTANT
 ---------
 
-Please use responsibly and at your own risk, as [Facebook frown upon such tools](https://www.facebook.com/terms.php?ref=pf).
-
-> 3.2. You will not collect users' content or information, or otherwise access Facebook, using automated means (such as harvesting bots, robots, spiders, or scrapers) without our prior permission.
-
+Please use responsibly and at your own risk.

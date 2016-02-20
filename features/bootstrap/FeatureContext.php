@@ -156,4 +156,12 @@ BASH;
     {
         return 'spawn '.$this->getCmd($this->commandName).PHP_EOL.$expectedOutput;
     }
+
+    /**
+     * @Given /^when asked the URL to the Instagram profile I answer "([^"]*)"$/
+     */
+    public function whenAskedTheURLToTheInstagramProfileIAnswer($arg1)
+    {
+        throw new PendingException();
+    }
 }
