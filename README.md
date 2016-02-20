@@ -5,43 +5,22 @@ Albumgrab - Automated photo album crawler and downloader
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/adamelso/albumgrab/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/adamelso/albumgrab/?branch=master)
 
 
-What it is? What does it do?
-----------------------------
-
-A __command-line utility__ to __automate__ crawling through a photo album and __downloading all images__ within the album __on Facebook__.
-
-
-Supported sites:
-
-  * Facebook
-
-Coming soon:
-
-  * Twitter
-  * Instagram
-  * Tumblr
-  * Flickr
-
-
 Background
 ----------
 
-Currently, there is no feature on Facebook to download all images in an album.
-Someone would have to go through each and every photo and download them
-one by one manually. I was required to download images a client had of their work
-from Facebook so that they could be uploaded on their site. So I created this project.
-
-This command line tool will automatically crawl through a photo album and save all the images.
+Sadly, the Facebook album download feature no longer works and so this tool is effectively useless at this time.
+However, new crawlers will be added for other sites, such as Instagram and Twitter.
 
 
 Requirements
 ------------
 
-  * PHP 5.5 or greater
+  * PHP 7.0 or greater
   * Composer
   * Git
   * cURL
-  * Expect
+  * V8
+  * V8js PHP extension
 
 
 Roadmap

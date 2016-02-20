@@ -10,21 +10,25 @@
     ],
 
     "require": {
-        "php": ">=5.5",
+        "php": ">=7.0",
+
+        "ext-v8js": "*",
 
         "fabpot/goutte": "^2.0",
-        "symfony/config": "^2.8",
-        "symfony/console": "^2.8",
-        "symfony/dependency-injection": "^2.8",
-        "symfony/event-dispatcher": "^2.8",
-        "symfony/filesystem": "^2.8",
-        "symfony/yaml": "^2.8"
+
+        "symfony/config": "^3.0",
+        "symfony/console": "^3.0",
+        "symfony/dependency-injection": "^3.0",
+        "symfony/event-dispatcher": "^3.0",
+        "symfony/filesystem": "^3.0",
+        "symfony/var-dumper": "^3.0",
+        "symfony/yaml": "^3.0"
     },
     "require-dev": {
-        "behat/behat": "~3.0",
+        "behat/behat": "@dev",
         "bossa/phpspec2-expect": "*",
         "phpspec/phpspec": "~2.4",
-        "symfony/process": "^2.8"
+        "symfony/process": "^3.0"
     },
     "minimum-stability": "stable",
 
