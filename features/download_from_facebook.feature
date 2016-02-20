@@ -14,7 +14,9 @@ https://www.facebook.com/PeeHPLondon/photos/pb.7119218495.-2207520000.1430669248
     Then it should print:
 """
 Please enter the name of the directory your images will be saved to. This can be an absolute path (eg: "/tmp/fbphotos"). Otherwise, relative paths will be relative to the "images" directory.
+/tmp/php-london
 Please enter the URL to the first image of the Facebook Photo Album you would like to download.
+https://www.facebook.com/PeeHPLondon/photos/pb.7119218495.-2207520000.1430669248./10153559172718496/?type=3&src=https%3A%2F%2Ffbcdn-sphotos-g-a.akamaihd.net%2Fhphotos-ak-xfp1%2Fv%2Ft1.0-9%2F10986697_10153559172718496_5727444485530442900_n.jpg%3Foh%3Dc47770f4cd15fecc6888bcd504899087%26oe%3D55DA9CB0%26__gda__%3D1439174101_7c78a93bf247dbad6c56681b6db5309c&size=960%2C959&fbid=10153559172718496
 Opening https://www.facebook.com/PeeHPLondon/photos/pb.7119218495.-2207520000.1430669248./10153559172718496/?type=3&src=https%3A%2F%2Ffbcdn-sphotos-g-a.akamaihd.net%2Fhphotos-ak-xfp1%2Fv%2Ft1.0-9%2F10986697_10153559172718496_5727444485530442900_n.jpg%3Foh%3Dc47770f4cd15fecc6888bcd504899087%26oe%3D55DA9CB0%26__gda__%3D1439174101_7c78a93bf247dbad6c56681b6db5309c&size=960%2C959&fbid=10153559172718496
 Image found 10986697_10153559172718496_5727444485530442900_n.jpg
 1
